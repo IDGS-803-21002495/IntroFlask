@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block container %}
+    <!--Mandar el valor a la vista: solo un valor-->
+    <h1>{{grupo}}</h1>
+    <!--Más de una linea, se debe especificar donde termina el ciclo for-->
+    {% for nom in lista%}
+    <h2>{{nom}}</h2>
+    {%endfor%}
+{%endblock%}
