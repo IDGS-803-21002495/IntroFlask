@@ -28,8 +28,32 @@ def resultado():
     if request.method == "POST":
         num1 = request.form.get("n1")
         num2 = request.form.get("n2")
-        suma = int(num1)+int(num2)
-        return render_template("OperasBas.html",suma = suma)
+        resultado = int(num1)+int(num2)
+        
+        return render_template("OperasBas.html",resultado = resultado,n1 = num1, n2 = num2)
+
+@app.route("/cinepolis",methods=["GET","POST"])
+def cine():
+    if request.method == "GET":
+        return render_template("cinepolis.html")
+    if request.method == "POST":
+        num_compradores = request.form.get("compradores")
+        num_boletos = request.form.get("boletos")
+        tarjeta = request.form.get("radiobtn")
+        posibles_compras = int(num_compradores) * 7
+        valor = ""
+        if int(num_boletos) > posibles_compras:
+            valor = "Solo es posible comprar 7 boletos por persona"
+        else: 
+            valor = int(num_boletos) * 12.00
+            if int(num_boletos) > 5:
+                valor = valor - (0.15 * valor)
+            elif int(num_boletos) > 2:
+                valor = valor - (0.10 * valor)
+            if tarjeta == "Si":
+                valor = valor - (0.10 * valor)
+        return render_template("cinepolis.html",valor = valor)
+        
 
 @app.route("/hola")
 def hola():

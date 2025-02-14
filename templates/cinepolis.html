@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Cinepolis</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+    <style>
+        body {
+            background-image: url(../static/img/cinepolis.png);
+            background-size: 40%;
+            background-repeat: no-repeat;
+            background-position: top;
+            background-color: #1960B6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="padding-top: 120px;">
+        <div class="row pt-5 justify-content-center" >
+            <div class="col-md-4 justify-content-start">
+                <div class="card p-4 bg-transparent text-white border-white">
+                    <form action="/cinepolis" method="post">
+                        <h2 class="text-center">Entrada</h2>
+                        
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="name" class="form-control">
+                        
+                        <label class="form-label">Cantidad compradores</label>
+                        <input type="number" name="compradores" class="form-control">
+                        
+                        <label class="form-label">Tarjeta Cineco</label>
+                        <div class="row">
+                            <div class="col">
+                                <input type="radio" name="radiobtn" class="form-check-input" value="Si">
+                                <label class="form-check-label">Si</label>
+                            </div>
+                            <div class="col">
+                                <input type="radio" name="radiobtn" class="form-check-input" value="No">
+                                <label class="form-check-label">No</label>
+                            </div>
+                        </div>
+                        
+                        <label class="form-label">Cantidad boletos</label>
+                        <input type="number" class="form-control" name="boletos">
+                        
+                        <div class="text-center mt-3">
+                            <input type="submit" value="Calcular" class="btn" style="background-color: #FCCB1A;">
+                        </div>
+                    </form>
+                </div>
+            </div>            
+            <div class="col-md-4 justify-content-end">
+                <div class="card p-4 bg-transparent text-white border-white text-center">
+                    <h2 class="text-center">Salida</h2>
+                    <label class="form-label">Valor a pagar</label>
+                    <h3 class="text-center">{{ valor }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
