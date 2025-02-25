@@ -1,15 +1,64 @@
 from flask import Flask, render_template,request
+from flask import g
+from flask_wtf.csrf import CSRFProtect
+from flask import flash
+import forms
+
 
 app=Flask(__name__)
+
+# normalmente va oculta
+app.secret_key = "Esta es la clave secreta"
+csrf = CSRFProtect()
+
+# validar que exista el recurso
+@app.errorhandler(404)
+# cache (e)
+def page_not_found(e):
+    return render_template('404.html'),404
+
+@app.before_request
+def before_request():
+    g.nombre = "Mario"
+    print(' Before request 1')
+
+@app.after_request
+def after_request(response):
+    print('After request 3')
+    return response
 
 # index
 @app.route('/')
 def index():
     grupo = "IDGS803"
     lista =["Juan","Pedro","Carlos"]
+    print("index 2")
+    print("Hola {}".format(g.nombre))
     # agregar una pagina por medio del nombre del archivo   
     # para mandarlo a la vista
     return render_template("index.html",grupo=grupo,lista=lista)
+
+# pagina Alumnos
+@app.route('/Alumnos',methods=["GET","POST"])
+def alumnos():
+    mat = ''
+    nom = ''
+    ape = ''
+    edad = ''
+    correo = ''
+    # va a obtener los valores que obtengamos del formulario
+    alumnos_clase = forms.UserForm(request.form)
+    # no me deje pasar mientras hasta que todas las validaciones esten satisfechas
+    if request.method == 'POST' and alumnos_clase.validate():
+        # obtener parametro
+        mat = alumnos_clase.matricula.data
+        nom = alumnos_clase.nombre.data
+        ape = alumnos_clase.apellidos.data
+        edad = alumnos_clase.edad.data
+        correo = alumnos_clase.correo.data
+        mensaje = 'Bienvenido {}'.format(nom)
+        flash(mensaje)
+    return render_template("Alumnos.html",form = alumnos_clase,mat = mat, nom = nom, ape = ape, edad = edad, correo = correo)
 
 @app.route("/ejemplo1")
 def ejemplo1():
@@ -105,4 +154,5 @@ def form1():
 
 # ahora esta en el puerto 300
 if __name__ == '__main__':
-    app.run(debug=True,port=300)
+    csrf.init_app(app)
+    app.run(debug=True,port=300,)
